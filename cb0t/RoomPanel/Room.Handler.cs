@@ -605,7 +605,6 @@ namespace cb0t
             }
 
             text = ScriptEvents.OnTextReceiving(this, name, text);
-
             if (!String.IsNullOrEmpty(text))
             {
                 this.Panel.PublicText(name, text, font);

@@ -14,7 +14,7 @@ namespace cb0t
         public ColorMenu()
         {
             this.InitializeComponent();
-            this.ClientSize = new Size(133, 133);
+            this.ClientSize = new Size(397, 133);
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
             this.Deactivate += ColorMenu_Deactivate;

@@ -137,7 +137,7 @@
             this.linkLabel1.Size = new System.Drawing.Size(133, 13);
             this.linkLabel1.TabIndex = 11;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://github.com/AresChat/cb0t";
+            this.linkLabel1.Text = "https://github.com/bsjaramillo/cb0t";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label7

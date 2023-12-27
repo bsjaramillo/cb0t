@@ -1287,27 +1287,70 @@ namespace cb0t
             html.Clear();
         }
 
-        private String AresColorToHTMLColor(int c)
+        string[] acols = new string[]
         {
-            switch (c)
+            ToHexString(Color.White),
+            ToHexString(Color.Black),
+            ToHexString(Color.Navy),
+            ToHexString(Color.Green),
+            ToHexString(Color.Red),
+            ToHexString(Color.Maroon),
+            ToHexString(Color.Purple),
+            ToHexString(Color.Orange),
+            ToHexString(Color.Yellow),
+            ToHexString(Color.Lime),
+            ToHexString(Color.Teal),
+            ToHexString(Color.Aqua),
+            ToHexString(Color.Blue),
+            ToHexString(Color.Fuchsia),
+            ToHexString(Color.Gray),
+            ToHexString(Color.Silver),
+            ToHexString(Color.OrangeRed),
+            ToHexString(Color.SaddleBrown),
+            ToHexString(Color.DarkCyan),
+            ToHexString(Color.Indigo),
+            ToHexString(Color.Crimson),
+            ToHexString(Color.ForestGreen),
+            ToHexString(Color.DarkOrchid),
+            ToHexString(Color.HotPink),
+            ToHexString(Color.DarkSlateGray),
+            ToHexString(Color.LightSteelBlue),
+            ToHexString(Color.LawnGreen),
+            ToHexString(Color.LightSeaGreen),
+            ToHexString(Color.BurlyWood),
+            ToHexString(Color.Chartreuse),
+            ToHexString(Color.DarkGoldenrod),
+            ToHexString(Color.DarkMagenta),
+            ToHexString(Color.DeepSkyBlue),
+            ToHexString(Color.Gold),
+            ToHexString(Color.LightCoral),
+            ToHexString(Color.MediumPurple),
+            ToHexString(Color.Olive),
+            ToHexString(Color.PaleVioletRed),
+            ToHexString(Color.RosyBrown),
+            ToHexString(Color.SeaGreen),
+            ToHexString(Color.SlateBlue),
+            ToHexString(Color.SpringGreen),
+            ToHexString(Color.Tomato),
+            ToHexString(Color.Violet),
+            ToHexString(Color.Wheat),
+            ToHexString(Color.YellowGreen)
+        };
+
+        static string ToHexString(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
+        String AresColorToHTMLColor(int index)
+        {
+            if (index >= 0 && index <= acols.Length)
             {
-                case 1: return "#000000";
-                case 0: return "#FFFFFF";
-                case 8: return "#FFFF00";
-                case 11: return "#00FFFF";
-                case 12: return "#0000FF";
-                case 2: return "#000080";
-                case 6: return "#800080";
-                case 9: return "#00FF00";
-                case 13: return "#FF00FF";
-                case 14: return "#808080";
-                case 15: return "#C0C0C0";
-                case 7: return "#FFA500";
-                case 5: return "#800000";
-                case 10: return "#008080";
-                case 3: return "#008000";
-                case 4: return "#FF0000";
-                default: return "#FFFFFF";
+                return acols[index];
+            }
+            else
+            {
+                return "#FFFFFF";
             }
         }
 
