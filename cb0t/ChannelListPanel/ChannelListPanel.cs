@@ -11,6 +11,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 
 namespace cb0t
 {
@@ -225,7 +226,7 @@ namespace cb0t
                 this.reloading_list = true;
                 this.LabelChanged(null, new ChannelListLabelChangedEventArgs { Text = "Searching..." });
                 this.Terminate = false;
-                
+                List<IPEndPoint> to_send = new List<IPEndPoint>();
 
                 byte[] raw = null;
 
@@ -246,41 +247,36 @@ namespace cb0t
 
                     try
                     {
-                        WebRequest request = WebRequest.Create(cserv_location);
+                        var response = Task.Run(() => SupabaseClient.InitializeAsync("", "")).Result;
+                        if (!response) return;
+                        var result = Task.Run(() => SupabaseClient.GetChatroomsAsync()).Result;
 
-                        using (WebResponse response = request.GetResponse())
-                        using (Stream stream = response.GetResponseStream())
+                        for (int i = 0; i < result.Count; i++)
                         {
-                            List<byte> tmp = new List<byte>();
-                            int s = 0;
-                            byte[] btmp = new byte[1024];
-
-                            while ((s = stream.Read(btmp, 0, 1024)) > 0)
-                                tmp.AddRange(btmp.Take(s));
-
-                            raw = tmp.ToArray();
+                            IPAddress ip = new IPAddress(IPAddress.Parse(result[i].Ip).GetAddressBytes());
+                            to_send.Add(new IPEndPoint(ip, result[i].Port));
                         }
                     }
                     catch { }
 
-                    if (raw == null) // unable to retrieve remote cache server so use the one in the installer
+                    if (raw == null && to_send.Count == 0) // unable to retrieve remote cache server so use the one in the installer
                         raw = File.ReadAllBytes(Settings.AppPath + "servers.dat");
                 }
 
-                if (raw != null)
+                if (raw != null|| to_send.Count > 0)
                 {
                     List<byte> list = new List<byte>(raw);
-                    List<IPEndPoint> to_send = new List<IPEndPoint>();
 
 
-                    while (list.Count >= 6)
-                    {
-                        IPAddress ip = new IPAddress(list.GetRange(0, 4).ToArray());
-                        list.RemoveRange(0, 4);
-                        ushort port = BitConverter.ToUInt16(list.ToArray(), 0);
-                        list.RemoveRange(0, 2);
-                        to_send.Add(new IPEndPoint(ip, port));
-                    }
+                    if (to_send.Count == 0)
+                        while (list.Count >= 6)
+                        {
+                            IPAddress ip = new IPAddress(list.GetRange(0, 4).ToArray());
+                            list.RemoveRange(0, 4);
+                            ushort port = BitConverter.ToUInt16(list.ToArray(), 0);
+                            list.RemoveRange(0, 2);
+                            to_send.Add(new IPEndPoint(ip, port));
+                        }
 
                     Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                     sock.Blocking = false;

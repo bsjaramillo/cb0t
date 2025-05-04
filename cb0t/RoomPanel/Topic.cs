@@ -329,28 +329,78 @@ namespace cb0t
             return f;
         }
 
+        Color[] acols = new Color[]
+        {
+            Color.White,
+            Color.Black,
+            Color.Navy,
+            Color.Green,
+            Color.Red,
+            Color.Maroon,
+            Color.Purple,
+            Color.Orange,
+            Color.Yellow,
+            Color.Lime,
+            Color.Teal,
+            Color.Aqua,
+            Color.Blue,
+            Color.Fuchsia,
+            Color.Gray,
+            Color.Silver,
+            Color.OrangeRed,
+            Color.SaddleBrown,
+            Color.DarkCyan,
+            Color.Indigo,
+            Color.Crimson,
+            Color.ForestGreen,
+            Color.DarkOrchid,
+            Color.HotPink,
+            Color.DarkSlateGray,
+            Color.LightSteelBlue,
+            Color.LawnGreen,
+            Color.LightSeaGreen,
+            Color.BurlyWood,
+            Color.Chartreuse,
+            Color.DarkGoldenrod,
+            Color.DarkMagenta,
+            Color.DeepSkyBlue,
+            Color.Gold,
+            Color.LightCoral,
+            Color.MediumPurple,
+            Color.Olive,
+            Color.PaleVioletRed,
+            Color.RosyBrown,
+            Color.SeaGreen,
+            Color.SlateBlue,
+            Color.SpringGreen,
+            Color.Tomato,
+            Color.Violet,
+            Color.Wheat,
+            Color.YellowGreen
+        };
+
+        static string ToHexString(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
+        Color AresColorToHTMLColor(int index)
+        {
+            if (index >= 0 && index <= acols.Length)
+            {
+                return acols[index];
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
         private Color GetColorFromCode(int code)
         {
-            switch (code)
-            {
-                case 1: return Color.Black;
-                case 2: return Color.Navy;
-                case 3: return Color.Green;
-                case 4: return Color.Red;
-                case 5: return Color.Maroon;
-                case 6: return Color.Purple;
-                case 7: return Color.Orange;
-                case 8: return Color.Yellow;
-                case 9: return Color.Lime;
-                case 10: return Color.Teal;
-                case 11: return Color.Aqua;
-                case 12: return Color.Blue;
-                case 13: return Color.Fuchsia;
-                case 14: return Color.Gray;
-                case 15: return Color.Silver;
-            }
 
-            return Color.White;
+            return AresColorToHTMLColor(code);
+
         }
 
         protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
